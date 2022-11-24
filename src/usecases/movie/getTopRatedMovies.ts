@@ -8,7 +8,7 @@ import { PageableResponse } from '../../common/models/PageableResponse';
 import { IPageableDTO } from '../../common/interfaces/pageableDto';
 import { HttpError } from '../../helpers/BusinessError';
 
-export async function getPopularMovies(params: IMovieQuery): Promise<PageableResponse<Movie>> {
+export async function getTopRatedMovies(params: IMovieQuery): Promise<PageableResponse<Movie>> {
   const baseUrl = process.env.TMDB_URL;
   let movies: Movie[] = [];
 
@@ -20,7 +20,7 @@ export async function getPopularMovies(params: IMovieQuery): Promise<PageableRes
     }
   };
 
-  await axios.get(`${baseUrl}/movie/popular`, config)
+  await axios.get(`${baseUrl}/movie/top_rated`, config)
     .then(res => {
       const response: IPageableDTO<IMovieDTO> = res.data;
 
@@ -32,7 +32,8 @@ export async function getPopularMovies(params: IMovieQuery): Promise<PageableRes
           genre_ids: movie.genre_ids,
           poster_url: movie.backdrop_path,
           note_average: movie.vote_average,
-          release_date: movie.release_date
+          release_date: movie.release_date,
+          popularity: movie.popularity
         })
       })
     }).catch(error => {

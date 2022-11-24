@@ -1,18 +1,16 @@
 import { Request, Response } from "express";
 import { PageableResponse } from "../../common/models/PageableResponse";
 import { Movie } from "../../entities/Movie";
-
-import { getPopularMovies } from '../../usecases/movie/getPopularMovies';
+import { getTopRatedMovies } from "../../usecases/movie/getTopRatedMovies";
 import { IMovieQuery } from "../../usecases/movie/interfaces/movieQuery";
 
-export class PopularMoviesController {
-
+export class TopRatedMoviesController {
+  
   async index(req: Request, res: Response): Promise<Response> {
     const queryParams: IMovieQuery = req.query;
 
-    const popularMovies: PageableResponse<Movie> = await getPopularMovies(queryParams);
+    const topRatedMovies: PageableResponse<Movie> = await getTopRatedMovies(queryParams);
 
-    return res.status(200).json(popularMovies);
+    return res.status(200).json(topRatedMovies);
   }
-
 }
